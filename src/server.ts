@@ -1,14 +1,18 @@
+import dotenv from 'dotenv-safe'
+dotenv.config()
+
 import Fastify from 'fastify'
-import mongoose from 'mongoose'
+import { mongoose } from './lib/mongo'
 
 const fastify = Fastify(({ logger: true }))
 
-main().catch(err => console.log(err))
+mongoose
+  .connect(process.env.DATABASE_URL as string)
+  .then(() => {
+    console.log('db connected successfully')
 
-const main = async () => {
-  await mongoose.connect(process.env.DATABASE_URL as string)
-}
-
-fastify.listen({ port: 3001 })
-  .then(() => console.log('Server Running...'))
-  .catch(err => console.log(err))
+    fastify.listen({ port: 3001 })
+      .then(() => console.log('Server Running...'))
+      .catch(err => console.log(err))
+  })
+  .catch((err) => console.log(err))
