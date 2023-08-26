@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 // Project
 import { ITask } from '../../models/task/types'
 import { ITasksRepository } from '../tasks-repository'
-import { DATETIME_FORMAT } from '../../models/task/constants'
+import { DATETIME_FORMAT } from '../../models/utils'
 
 export class InMemoryTasksRepository implements ITasksRepository {
   public items: ITask[] = []

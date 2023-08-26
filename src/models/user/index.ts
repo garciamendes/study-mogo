@@ -5,13 +5,15 @@ import dayjs from 'dayjs'
 import { mongoose } from '../../lib/mongo'
 
 // Local
-import { ITask } from './types'
+import { IUser } from './types'
 import { DATETIME_FORMAT } from '../utils'
 
-const taskSchema = new mongoose.Schema<ITask>({
-  title: String,
-  description: { type: String, required: false, default: '' },
-  isFinished: { type: Boolean, default: false, required: false },
+const taskSchema = new mongoose.Schema<IUser>({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   created: { type: String, default: dayjs().format(DATETIME_FORMAT) },
   modified: { type: String, default: dayjs().format(DATETIME_FORMAT) }
 })
