@@ -10,6 +10,19 @@ export class MongoTasksRepository implements ITasksRepository {
     return task
   }
 
+  async update(userid: string, taskid: string, data: Partial<ITask>) {
+    const task = await Tasks.findOneAndUpdate({
+      $where: `this.userid === ${userid} and this.taskid === ${taskid}`,
+    }, data, {
+      new: true
+    })
+
+    if (task)
+      return task
+
+    return null
+  }
+
   async query(userId: string) {
     const tasks = await Tasks.find({ userId }, (err: Error, result: Array<ITask>) => {
       if (err) {
@@ -21,5 +34,14 @@ export class MongoTasksRepository implements ITasksRepository {
     })
 
     return tasks
+  }
+
+  async findTaskById(taskId: string) {
+    const task = await Tasks.findOne({ taskId })
+
+    if (task)
+      return task
+
+    return null
   }
 }
