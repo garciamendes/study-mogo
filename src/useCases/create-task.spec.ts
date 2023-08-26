@@ -21,6 +21,6 @@ describe('Task Use Case', () => {
       title: 'Task create task',
     })
 
-    expect(task._id).toEqual(expect.any(String))
+    expect(task.id).toEqual(expect.any(String))
   })
 })

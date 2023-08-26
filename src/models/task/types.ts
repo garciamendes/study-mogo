@@ -1,5 +1,8 @@
+// Project
+import { randomUUID } from 'node:crypto'
+
 export interface ITask {
-  _id?: string
+  id?: ReturnType<typeof randomUUID>
   title: string
   description?: string
   isFinished?: boolean

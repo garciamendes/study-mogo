@@ -14,7 +14,7 @@ export class InMemoryTasksRepository implements ITasksRepository {
 
   async create(data: ITask) {
     const task: ITask = {
-      _id: randomUUID(),
+      id: randomUUID(),
       title: data.title,
       description: data.description || '',
       isFinished: data.isFinished || false,

@@ -1,14 +1,21 @@
+// Node
+import { randomUUID } from 'node:crypto'
+
 // Third party
 import dayjs from 'dayjs'
 
 // Project
 import { mongoose } from '../../lib/mongo'
+import { DATETIME_FORMAT } from '../utils'
 
 // Local
 import { ITask } from './types'
-import { DATETIME_FORMAT } from '../utils'
 
 const taskSchema = new mongoose.Schema<ITask>({
+  id: {
+    type: String,
+    default: randomUUID
+  },
   title: String,
   description: { type: String, required: false, default: '' },
   isFinished: { type: Boolean, default: false, required: false },
