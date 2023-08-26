@@ -1,17 +1,17 @@
 // Project
-import { Task } from '../../models/task'
+import { Tasks } from '../../models/task'
 import { ITask } from '../../models/task/types'
 import { ITasksRepository } from '../tasks-repository'
 
 export class MongoTasksRepository implements ITasksRepository {
   async create(data: ITask) {
-    const task = await Task.create(data)
+    const task = await Tasks.create(data)
 
     return task
   }
 
-  async query() {
-    const tasks = await Task.find({}, (err: Error, result: Array<ITask>) => {
+  async query(userId: string) {
+    const tasks = await Tasks.find({ userId }, (err: Error, result: Array<ITask>) => {
       if (err) {
         console.log(err)
         return []

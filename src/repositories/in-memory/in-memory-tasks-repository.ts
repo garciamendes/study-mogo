@@ -15,6 +15,7 @@ export class InMemoryTasksRepository implements ITasksRepository {
   async create(data: ITask) {
     const task: ITask = {
       id: randomUUID(),
+      userId: data.userId,
       title: data.title,
       description: data.description || '',
       isFinished: data.isFinished || false,
@@ -26,8 +27,8 @@ export class InMemoryTasksRepository implements ITasksRepository {
     return task
   }
 
-  async query() {
-    const tasks = this.items
+  async query(userId: string) {
+    const tasks = this.items.filter(row => row.userId === userId)
 
     return tasks
   }

@@ -6,6 +6,7 @@ export interface ITask {
   title: string
   description?: string
   isFinished?: boolean
+  userId: string
   created?: string
   modified?: string
 }

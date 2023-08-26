@@ -9,10 +9,11 @@ import { IUser } from './types'
 import { DATETIME_FORMAT, REGEX_MAIL } from '../utils'
 import { randomUUID } from 'node:crypto'
 
-const taskSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<IUser>({
   id: {
     type: String,
-    default: randomUUID
+    default: randomUUID,
+    index: true
   },
   email: {
     type: String,
@@ -34,4 +35,4 @@ const taskSchema = new mongoose.Schema<IUser>({
   modified: { type: String, default: dayjs().format(DATETIME_FORMAT) }
 })
 
-export const Task = mongoose.model('task', taskSchema)
+export const Users = mongoose.model('users', userSchema)

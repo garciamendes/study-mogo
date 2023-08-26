@@ -14,13 +14,19 @@ import { ITask } from './types'
 const taskSchema = new mongoose.Schema<ITask>({
   id: {
     type: String,
-    default: randomUUID
+    default: randomUUID,
+    index: true
   },
   title: String,
   description: { type: String, required: false, default: '' },
   isFinished: { type: Boolean, default: false, required: false },
+  userId: {
+    type: String,
+    required: [true, 'user id is required!'],
+    index: true
+  },
   created: { type: String, default: dayjs().format(DATETIME_FORMAT) },
   modified: { type: String, default: dayjs().format(DATETIME_FORMAT) }
 })
 
-export const Task = mongoose.model('task', taskSchema)
+export const Tasks = mongoose.model('tasks', taskSchema)

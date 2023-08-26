@@ -6,12 +6,16 @@ interface ITaskResponse {
   tasks: Array<ITask>
 }
 
+interface ITaskRequest {
+  userId: string
+}
+
 export class QueryTaskUseCase {
-  constructor(private taskRepository: ITasksRepository) {}
+  constructor(private taskRepository: ITasksRepository) { }
 
-  async execute(): Promise<ITaskResponse> {
-    const tasks = await this.taskRepository.query()
+  async execute({ userId }: ITaskRequest): Promise<ITaskResponse> {
 
+    const tasks = await this.taskRepository.query(userId)
     return { tasks }
   }
 }
