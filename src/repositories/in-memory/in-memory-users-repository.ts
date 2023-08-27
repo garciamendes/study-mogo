@@ -3,7 +3,6 @@ import { randomUUID } from 'node:crypto'
 
 // Third party
 import dayjs from 'dayjs'
-import { hash } from 'bcryptjs'
 
 // Project
 import { DATETIME_FORMAT } from '../../models/utils'
@@ -17,7 +16,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
     const user: IUser = {
       id: randomUUID(),
       email: data.email,
-      password: await hash(data.password, 6),
+      password: data.password,
       created: dayjs().format(DATETIME_FORMAT),
       modified: data.modified || dayjs().format(DATETIME_FORMAT),
     }

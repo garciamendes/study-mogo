@@ -1,3 +1,6 @@
+// Node
+import { randomUUID } from 'node:crypto'
+
 // Third party
 import dayjs from 'dayjs'
 
@@ -7,7 +10,6 @@ import { mongoose } from '../../lib/mongo'
 // Local
 import { IUser } from './types'
 import { DATETIME_FORMAT, REGEX_MAIL } from '../utils'
-import { randomUUID } from 'node:crypto'
 
 const userSchema = new mongoose.Schema<IUser>({
   id: {
