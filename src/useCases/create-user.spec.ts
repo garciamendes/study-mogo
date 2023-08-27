@@ -19,9 +19,14 @@ describe('Task Use Case', () => {
   it('Testing should be able to create a new user', async () => {
     const { user } = await sut.execute({
       email: 'user@example.com',
-      password: 'dev123'
+      password: 'dev123',
+      name: {
+        first: 'Teste first',
+        last: 'Teste last'
+      }
     })
 
+    console.log(user)
     expect(user.id).toEqual(expect.any(String))
   })
 })
