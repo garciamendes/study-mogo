@@ -32,7 +32,7 @@ mongoose
   .then(() => {
     console.log('db connected successfully')
 
-    fastify.listen({ port: 3001 })
+    fastify.listen({ port: Number(process.env.PORT) || 3001  })
       .then(() => console.log('Server Running...'))
       .catch(err => console.log(err))
   })
