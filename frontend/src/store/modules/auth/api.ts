@@ -1,20 +1,29 @@
 // Third party
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@/store/query'
-import { ILoginRequest } from './types'
+
+// Local
+import { ILoginRequest, ILoginResponse, IRegisterResquest } from './types'
 
 export const authApi = createApi({
   reducerPath: 'auth',
   baseQuery: baseQuery,
   endpoints: (builder) => ({
-    login: builder.mutation<void, ILoginRequest>({
+    login: builder.mutation<ILoginResponse, ILoginRequest>({
       query: ({ email, password }) => ({
-        url: '/auth/login/',
+        url: '/api/user/user-auth',
         method: 'POST',
         body: { email, password },
+      }),
+    }),
+    register: builder.mutation<void, IRegisterResquest>({
+      query: ({ email, password, name }) => ({
+        url: '/api/user',
+        method: 'POST',
+        body: { email, password, name },
       }),
     }),
   }),
 })
 
-export const { useLoginMutation } = authApi
+export const { useLoginMutation, useRegisterMutation } = authApi

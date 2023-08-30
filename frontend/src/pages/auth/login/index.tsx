@@ -1,5 +1,5 @@
 // React
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 // Third party
 import { isEqual } from 'lodash'
@@ -10,6 +10,7 @@ import { ArrowRight, Eye, EyeClosed, Warning } from '@phosphor-icons/react'
 import styles from '../styles.module.scss'
 import { useRouter } from 'next/navigation'
 import { renderBulets } from '../utils'
+import { useLoginMutation } from '@/store/modules/auth/api'
 
 const Login = () => {
   // State
@@ -17,10 +18,28 @@ const Login = () => {
   const [form, setForm] = useState<{
     email: string, password: string
   }>({ email: '', password: '' })
-  const [isLoginUserLoading, setIsLoginUserLoading] = useState(false)
 
   // Hook
   const history = useRouter()
+  const [loginAction, { isLoading: isLoginUserLoading, isSuccess, isError, data, error }] =
+    useLoginMutation()
+
+  useEffect(() => {
+    console.log(error)
+    if (error) {
+      const err = error as any
+      if (err?.data?.message)
+        toast.error(err?.data?.message)
+      else
+        toast.error('Error ao tentar fazer o login')
+      return
+    }
+
+    if (isSuccess) {
+      sessionStorage.setItem('token', data?.token as string)
+      history.push('/')
+    }
+  }, [data, isLoginUserLoading, isError, isSuccess])
 
   const handleShowPassword = () => {
     if (isEqual(showPassword, 'text'))
@@ -41,18 +60,8 @@ const Login = () => {
       email: form['email'],
       password: form['password']
     }
-    setIsLoginUserLoading(true)
-    console.log(data)
-    setIsLoginUserLoading(false)
 
-    // dispatch(loginUser(data, {
-    //   onFinish: () => {
-    //     setIsLoginUserLoading(false)
-    //     if (isAuthenticated())
-    //       history.push('/home')
-    //   },
-    //   onError: () => setIsLoginUserLoading(false)
-    // }))
+    loginAction(data)
   }
 
   const handleMouseEnter = () => {

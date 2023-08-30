@@ -1,5 +1,5 @@
 // React
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 // Third party
 import { ArrowLeft, Eye, EyeClosed } from '@phosphor-icons/react'
@@ -10,10 +10,10 @@ import styles from '../styles.module.scss'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { BULET_PLACEHOLDER, renderBulets } from '../utils'
+import { useLoginMutation, useRegisterMutation } from '@/store/modules/auth/api'
 
 const Register = () => {
   // State
-  const [isCreateUserLoading, setIsCreateUserLoading] = useState(false)
   const [showPassword, setShowPassword] = useState('password')
   const [form, setForm] = useState({
     first_name: '', last_name: '', email: '', password: '', confirm_password: ''
@@ -21,6 +21,22 @@ const Register = () => {
 
   // Hook
   const history = useRouter()
+  const [registerAction, { isLoading: isCreateUserLoading, isError, error, isSuccess }] =
+    useRegisterMutation()
+
+  useEffect(() => {
+    if (error) {
+      const err = error as any
+      toast.error(err.data.message)
+      return
+    }
+
+    if (isSuccess) {
+      toast.success('Usuário criado com sucesso')
+      history.push('/auth/login')
+      return
+    }
+  }, [error, isError, isSuccess])
 
   const handleShowPassword = () => {
     if (isEqual(showPassword, 'text'))
@@ -48,18 +64,14 @@ const Register = () => {
       return
     }
 
-    const data = {
+    registerAction({
+      email: form['email'] as string,
+      password: form['password'] as string,
       name: {
-        first_name: form['first_name'],
-        last_name: form['last_name'],
+        first: form['first_name'],
+        last: form['last_name'],
       },
-      email: form['email'],
-      password: form['password']
-    }
-
-    setIsCreateUserLoading(true)
-    console.log(data)
-    setIsCreateUserLoading(false)
+    })
   }
 
   return (

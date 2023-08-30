@@ -8,7 +8,7 @@ import { InvalidCrendetialsError } from '../../../useCases/errors/invalid-crende
 export const authenticate = async (request: FastifyRequest, reply: FastifyReply) => {
   const authenticateBody = zod.object({
     email: zod.string().email(),
-    password: zod.string().min(8)
+    password: zod.string()
   })
 
   const { email, password } = authenticateBody.parse(request.body)
