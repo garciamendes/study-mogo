@@ -11,6 +11,7 @@ import styles from '../styles.module.scss'
 import { useRouter } from 'next/navigation'
 import { renderBulets } from '../utils'
 import { useLoginMutation } from '@/store/modules/auth/api'
+import { withAuth } from '@/hooks/withAuth'
 
 const Login = () => {
   // State
@@ -25,7 +26,6 @@ const Login = () => {
     useLoginMutation()
 
   useEffect(() => {
-    console.log(error)
     if (error) {
       const err = error as any
       if (err?.data?.message)
@@ -126,4 +126,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default withAuth(Login, false)
