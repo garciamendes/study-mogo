@@ -27,7 +27,7 @@ const Register = () => {
   useEffect(() => {
     if (error) {
       const err = error as any
-      toast.error(err.data.message)
+      toast.error(err.data?.message)
       return
     }
 
