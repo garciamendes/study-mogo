@@ -12,4 +12,10 @@
     margin: 0 auto;
     gap: 20px;
   }
+
+  .containerListTask {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+  }
 }

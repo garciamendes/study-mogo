@@ -26,7 +26,6 @@ describe('Task Use Case', () => {
       }
     })
 
-    console.log(user)
     expect(user.id).toEqual(expect.any(String))
   })
 })
